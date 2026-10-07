@@ -3,13 +3,16 @@
 An interactive Bash script that stages, commits and pushes in one go, while enforcing a consistent commit message format.
 
 ```
-[HRO][branch] type: message
+[INITIALS][branch] type: message
 ```
 
 Example: `[HRO][feature-x] feat: add login system`
 
+The initials are not hardcoded: the script asks for them each time.
+
 ## Features
 
+- Asks for your initials (no default value)
 - Lists the existing local branches and lets you pick one with its number
 - Switches to the chosen branch automatically if you are not already on it
 - Asks for the commit type with a single key press (no Enter needed)
@@ -53,6 +56,7 @@ Example session:
 
 ```
 $ ./push.sh
+Initials: HRO
 Choose the branch (Enter = stay on the current one, marked with *):
    1) dev
    2) feature-x
@@ -96,7 +100,7 @@ To change the list, edit the `TYPES` array at the top of the script (9 entries m
 
 ## Customization
 
-- **Change the prefix**: replace `[HRO]` in the `git commit` line at the bottom of the script.
+- **Initials**: asked at each run, letters, digits, `-` and `_` only. Nothing is stored or pre-filled.
 - **Push to a specific remote or set the upstream**: replace the last line with `git push -u origin "$BRANCH"`.
 
 ## Good to know

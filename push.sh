@@ -1,7 +1,7 @@
 #!/bin/bash
 # Usage: ./push.sh
-# Everything is asked interactively: branch, commit type, message.
-# Commit format: [HRO][branch] type: message
+# Everything is asked interactively: initials, branch, commit type, message.
+# Commit format: [INITIALS][branch] type: message
 
 TYPES=(feat fix doc style refactor test chore perf build)
 
@@ -9,6 +9,15 @@ if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     echo "Error: not in a git repository"
     exit 1
 fi
+
+# --- Initials ---
+while true; do
+    read -r -p "Initials: " INITIALS
+    if [[ "$INITIALS" =~ ^[A-Za-z0-9_-]+$ ]]; then
+        break
+    fi
+    echo "Invalid initials (letters, digits, - and _ only)."
+done
 
 CURRENT_BRANCH=$(git branch --show-current)
 mapfile -t BRANCHES < <(git for-each-ref --format='%(refname:short)' refs/heads)
@@ -79,5 +88,5 @@ while true; do
 done
 
 git add . || exit 1
-git commit -m "[HRO][$BRANCH] $TYPE: $MESSAGE" || exit 1
+git commit -m "[$INITIALS][$BRANCH] $TYPE: $MESSAGE" || exit 1
 git push
